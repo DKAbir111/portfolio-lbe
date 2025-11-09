@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with Love</title>
     <style>
+        /* CSS REMAINS UNCHANGED */
         * {
             margin: 0;
             padding: 0;
@@ -117,6 +118,18 @@
             color: #666;
         }
 
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            display: inline-block;
+        }
+
+        .status-indicator.disconnected {
+            background: #f44336;
+        }
+
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -150,6 +163,13 @@
             border-radius: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             word-wrap: break-word;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
+        }
+
+        .message-bubble:active {
+            transform: scale(0.98);
         }
 
         .message.sent .message-bubble {
@@ -211,21 +231,6 @@
         .reaction-btn.active {
             background: #f8bbd0;
             border-color: #ec407a;
-        }
-
-        .add-reaction-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #f5f5f5;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background 0.2s;
-        }
-
-        .add-reaction-btn:hover {
-            background: #e0e0e0;
         }
 
         .reaction-picker {
@@ -359,10 +364,6 @@
             margin-top: 50px;
         }
 
-        .empty-state svg {
-            margin-bottom: 15px;
-        }
-
         .hidden {
             display: none;
         }
@@ -370,7 +371,6 @@
 </head>
 
 <body>
-    <!-- Login Screen -->
     <div id="loginScreen" class="login-screen">
         <div class="login-box">
             <div style="font-size: 60px;">❤️</div>
@@ -381,7 +381,6 @@
         </div>
     </div>
 
-    <!-- Chat Screen -->
     <div id="chatScreen" class="chat-screen">
         <div class="chat-header">
             <div class="chat-header-content">
@@ -390,6 +389,7 @@
                     <span>Our Chat</span>
                 </div>
                 <div class="user-info">
+                    <span class="status-indicator" id="statusIndicator"></span>
                     <span style="font-size: 20px;">👤</span>
                     <span id="currentUsername"></span>
                 </div>
@@ -412,6 +412,7 @@
                     <button class="emoji-toggle-btn" onclick="toggleEmojiPicker()">😊</button>
                     <input type="text" id="messageInput" class="message-input" placeholder="Type a message...">
                     <button class="send-btn" onclick="sendMessage()">
+                        <span>Send</span>
                         <span>➤</span>
                     </button>
                 </div>
@@ -419,10 +420,16 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
     <script>
+        let socket;
         let currentUser = '';
         let messages = [];
-        let pollInterval;
+        let longPressTimer;
+
+        // --- CRITICAL FIX: Explicitly define the backend URL ---
+        const BACKEND_URL = 'https://chatapp-backend-usc9.onrender.com';
+        // --------------------------------------------------------
 
         const emojis = ['😊', '😂', '🥰', '😍', '🤗', '😘', '💕', '❤️', '💖', '✨', '🌟', '🎉', '👋', '🙏', '💪', '👍', '🔥', '💯', '😎', '🤔', '😢', '😭', '😴', '🤤'];
         const reactionEmojis = ['❤️', '😂', '😮', '😢', '😍', '👍', '🔥'];
@@ -458,27 +465,68 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('chatScreen').style.display = 'flex';
                 initEmojiPicker();
-                loadMessages();
-                pollInterval = setInterval(loadMessages, 2000);
+                connectSocket();
             }
         }
 
-        async function loadMessages() {
-            try {
-                const result = await window.storage.list('msg:', true);
-                if (result && result.keys) {
-                    const messagePromises = result.keys.map(async (key) => {
-                        const data = await window.storage.get(key, true);
-                        return data ? JSON.parse(data.value) : null;
-                    });
-                    const loadedMessages = (await Promise.all(messagePromises))
-                        .filter(msg => msg !== null)
-                        .sort((a, b) => a.timestamp - b.timestamp);
-                    messages = loadedMessages;
+        function connectSocket() {
+            // --- CRITICAL FIX: Use the explicit backend URL here ---
+            socket = io(BACKEND_URL);
+
+            socket.on('connect', () => {
+                console.log('✅ Connected to server');
+                document.getElementById('statusIndicator').classList.remove('disconnected');
+            });
+
+            socket.on('disconnect', () => {
+                console.log('❌ Disconnected from server');
+                document.getElementById('statusIndicator').classList.add('disconnected');
+            });
+
+            socket.on('load-messages', (loadedMessages) => {
+                messages = loadedMessages;
+                renderMessages();
+            });
+
+            socket.on('new-message', (message) => {
+                messages.push(message);
+                renderMessages();
+            });
+
+            socket.on('reaction-updated', (data) => {
+                const message = messages.find(m => m._id === data.messageId);
+                if (message) {
+                    // Update reactions on the message object
+                    message.reactions = data.reactions;
                     renderMessages();
                 }
-            } catch (error) {
-                console.log('No messages yet');
+            });
+        }
+
+        function startLongPress(e, messageId) {
+            // Prevent default action (like context menu)
+            e.preventDefault();
+            longPressTimer = setTimeout(() => {
+                showReactionPicker(messageId);
+            }, 500);
+        }
+
+        function cancelLongPress() {
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+        }
+
+        function showReactionPicker(messageId) {
+            // Hide all other pickers
+            document.querySelectorAll('.reaction-picker').forEach(p => {
+                p.classList.remove('show');
+            });
+
+            const picker = document.getElementById(`picker-${messageId}`);
+            if (picker) {
+                picker.classList.add('show');
             }
         }
 
@@ -486,23 +534,38 @@
             const wrapper = document.getElementById('messagesWrapper');
             const emptyState = document.getElementById('emptyState');
 
+            if (!wrapper) return;
+
             if (messages.length === 0) {
-                emptyState.style.display = 'block';
+                if (emptyState) emptyState.style.display = 'block';
                 return;
             }
 
-            emptyState.style.display = 'none';
+            if (emptyState) emptyState.style.display = 'none';
+
+            // Clear wrapper content to prevent duplicates/update messages efficiently
             wrapper.innerHTML = '';
 
             messages.forEach(msg => {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${msg.sender === currentUser ? 'sent' : 'received'}`;
 
+                // Add message ID as a data attribute for easier identification if needed, though not strictly necessary here
+                // messageDiv.dataset.messageId = msg._id; 
+
                 const contentDiv = document.createElement('div');
                 contentDiv.className = 'message-content';
 
                 const bubbleDiv = document.createElement('div');
                 bubbleDiv.className = 'message-bubble';
+
+                // Add long press/click listeners
+                bubbleDiv.addEventListener('mousedown', (e) => startLongPress(e, msg._id));
+                bubbleDiv.addEventListener('mouseup', cancelLongPress);
+                bubbleDiv.addEventListener('mouseleave', cancelLongPress);
+                bubbleDiv.addEventListener('touchstart', (e) => startLongPress(e, msg._id));
+                bubbleDiv.addEventListener('touchend', cancelLongPress);
+                bubbleDiv.addEventListener('touchcancel', cancelLongPress);
 
                 const headerDiv = document.createElement('div');
                 headerDiv.className = 'message-header';
@@ -519,45 +582,43 @@
                 bubbleDiv.appendChild(textDiv);
                 contentDiv.appendChild(bubbleDiv);
 
-                // Add reactions
                 const reactionsDiv = document.createElement('div');
                 reactionsDiv.className = 'reactions-container';
                 reactionsDiv.style.position = 'relative';
 
                 if (msg.reactions) {
-                    Object.entries(msg.reactions).forEach(([emoji, users]) => {
-                        if (users.length > 0) {
+                    // Normalize reactions data, Mongoose may send a plain object or a Map depending on its internal state
+                    const reactionsObj = msg.reactions instanceof Map ? Object.fromEntries(msg.reactions) : msg.reactions;
+
+                    Object.entries(reactionsObj).forEach(([emoji, users]) => {
+                        if (users && users.length > 0) {
                             const reactionBtn = document.createElement('button');
                             reactionBtn.className = `reaction-btn ${users.includes(currentUser) ? 'active' : ''}`;
                             reactionBtn.innerHTML = `<span>${emoji}</span><span style="font-size: 12px; font-weight: 600;">${users.length}</span>`;
-                            reactionBtn.onclick = () => addReaction(msg.id, emoji);
+                            // Toggle reaction on click
+                            reactionBtn.onclick = () => addReaction(msg._id, emoji);
                             reactionsDiv.appendChild(reactionBtn);
                         }
                     });
                 }
 
-                // Add reaction button
-                const addReactionBtn = document.createElement('button');
-                addReactionBtn.className = 'add-reaction-btn';
-                addReactionBtn.textContent = '+';
-                addReactionBtn.onclick = (e) => toggleReactionPicker(e, msg.id);
-
+                // Reaction Picker setup (hidden until long press)
                 const reactionPicker = document.createElement('div');
                 reactionPicker.className = 'reaction-picker';
-                reactionPicker.id = `picker-${msg.id}`;
+                reactionPicker.id = `picker-${msg._id}`;
 
                 reactionEmojis.forEach(emoji => {
                     const option = document.createElement('button');
                     option.className = 'reaction-option';
                     option.textContent = emoji;
                     option.onclick = () => {
-                        addReaction(msg.id, emoji);
+                        addReaction(msg._id, emoji);
+                        // Hide picker after selection
                         reactionPicker.classList.remove('show');
                     };
                     reactionPicker.appendChild(option);
                 });
 
-                reactionsDiv.appendChild(addReactionBtn);
                 reactionsDiv.appendChild(reactionPicker);
                 contentDiv.appendChild(reactionsDiv);
 
@@ -568,67 +629,27 @@
             scrollToBottom();
         }
 
-        function toggleReactionPicker(e, messageId) {
-            e.stopPropagation();
-            const picker = document.getElementById(`picker-${messageId}`);
-            document.querySelectorAll('.reaction-picker').forEach(p => {
-                if (p.id !== `picker-${messageId}`) {
-                    p.classList.remove('show');
-                }
+        function addReaction(messageId, emoji) {
+            socket.emit('add-reaction', {
+                messageId: messageId,
+                emoji: emoji,
+                username: currentUser
             });
-            picker.classList.toggle('show');
         }
 
-        async function addReaction(messageId, emoji) {
-            const message = messages.find(m => m.id === messageId);
-            if (!message) return;
-
-            const reactions = message.reactions || {};
-
-            if (reactions[emoji] && reactions[emoji].includes(currentUser)) {
-                reactions[emoji] = reactions[emoji].filter(u => u !== currentUser);
-                if (reactions[emoji].length === 0) {
-                    delete reactions[emoji];
-                }
-            } else {
-                if (!reactions[emoji]) {
-                    reactions[emoji] = [];
-                }
-                reactions[emoji].push(currentUser);
-            }
-
-            const updatedMessage = { ...message, reactions };
-
-            try {
-                await window.storage.set(`msg:${messageId}`, JSON.stringify(updatedMessage), true);
-                await loadMessages();
-            } catch (error) {
-                console.error('Error adding reaction:', error);
-            }
-        }
-
-        async function sendMessage() {
+        function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
 
             if (!text) return;
 
-            const newMessage = {
-                id: Date.now().toString(),
+            socket.emit('send-message', {
                 text: text,
-                sender: currentUser,
-                timestamp: Date.now(),
-                reactions: {}
-            };
+                sender: currentUser
+            });
 
-            try {
-                await window.storage.set(`msg:${newMessage.id}`, JSON.stringify(newMessage), true);
-                input.value = '';
-                document.getElementById('emojiPicker').classList.remove('show');
-                await loadMessages();
-            } catch (error) {
-                console.error('Error sending message:', error);
-            }
+            input.value = '';
+            document.getElementById('emojiPicker').classList.remove('show');
         }
 
         function formatTime(timestamp) {
@@ -641,10 +662,12 @@
 
         function scrollToBottom() {
             const container = document.getElementById('messagesContainer');
-            container.scrollTop = container.scrollHeight;
+            // Check if container exists before trying to scroll
+            if (container) {
+                container.scrollTop = container.scrollHeight;
+            }
         }
 
-        // Enter key to send
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('usernameInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') login();
@@ -654,9 +677,9 @@
                 if (e.key === 'Enter') sendMessage();
             });
 
-            // Close reaction picker when clicking outside
+            // Global click listener to hide the reaction picker when clicking outside
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('.reactions-container')) {
+                if (!e.target.closest('.reactions-container') && !e.target.closest('.message-bubble')) {
                     document.querySelectorAll('.reaction-picker').forEach(p => {
                         p.classList.remove('show');
                     });
