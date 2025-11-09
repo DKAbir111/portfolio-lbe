@@ -2,807 +2,669 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Laila Bikis Eti | HR Professional Portfolio</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Love</title>
     <style>
-        /* ====== Google Fonts Import ====== */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
-
-        /* ====== CSS Reset ====== */
-        *,
-        *::before,
-        *::after {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #f0f0f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #e1bee7 50%, #bbdefb 100%);
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        /* ====== Scrollbar Styling ====== */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #122d5a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #3a78d8;
-            border-radius: 5px;
-        }
-
-        /* ====== Container ====== */
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 1.2rem;
-        }
-
-        /* ====== Header & Nav ====== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(30, 60, 114, 0.85);
-            backdrop-filter: saturate(180%) blur(20px);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            transition: background 0.3s ease;
-        }
-
-        header.scrolled {
-            background: rgba(10, 30, 80, 0.95);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        nav {
-            max-width: 960px;
-            margin: auto;
-            padding: 1.2rem 0;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
         }
 
-        nav .logo {
-            font-weight: 700;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #ffd700, #ff6f61);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: default;
-            user-select: none;
-        }
-
-        nav ul {
+        .login-screen {
             display: flex;
-            gap: 2.5rem;
-        }
-
-        nav ul li {
-            position: relative;
-        }
-
-        nav ul li a {
-            font-weight: 500;
-            font-size: 1rem;
-            color: #e0e0eb;
-            padding: 0.25rem 0;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover,
-        nav ul li a.active {
-            color: #ffd700;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #ffd700;
-            border-radius: 2px;
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
-
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            transform: scaleX(1);
-        }
-
-        /* ====== Hero Section ====== */
-        #hero {
-            padding-top: 120px;
-            padding-bottom: 120px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 3rem;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        #hero .hero-text {
-            flex: 1 1 350px;
-            max-width: 520px;
-        }
-
-        #hero h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, #ffd700, #ff6f61);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.3rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        #hero h2 {
-            font-weight: 600;
-            font-size: 1.6rem;
-            margin-bottom: 1.6rem;
-            color: #ffeabf;
-            font-style: italic;
-        }
-
-        #hero p {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #d4d4db;
-        }
-
-        #hero .btn-primary {
-            margin-top: 2.5rem;
-            padding: 0.9rem 3rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border-radius: 40px;
-            background: linear-gradient(45deg, #ffd700, #ff6f61);
-            color: #222;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 111, 97, 0.7);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        #hero .btn-primary:hover {
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.9);
-            transform: translateY(-3px);
-        }
-
-        #hero .hero-image {
-            flex: 0 1 280px;
-            max-width: 280px;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow:
-                0 0 30px 5px rgba(255, 215, 0, 0.45),
-                0 0 60px 10px rgba(255, 111, 97, 0.35);
-            border: 6px solid transparent;
-            background: linear-gradient(45deg, #ffd700, #ff6f61);
-        }
-
-        #hero .hero-image img {
-            display: block;
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            padding: 40px;
             width: 100%;
-            height: auto;
-            border-radius: 50%;
-            transition: transform 0.4s ease;
-        }
-
-        #hero .hero-image:hover img {
-            transform: scale(1.05) rotate(3deg);
-        }
-
-        /* ====== Section Titles ====== */
-        section h2.section-title {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            position: relative;
-            text-align: center;
-            color: #ffeabf;
-            letter-spacing: 0.05em;
-        }
-
-        section h2.section-title::after {
-            content: '';
-            display: block;
-            margin: 0.7rem auto 0;
-            width: 70px;
-            height: 4px;
-            border-radius: 2px;
-            background: linear-gradient(90deg, #ffd700, #ff6f61);
-        }
-
-        /* ====== About Section ====== */
-        #about {
-            margin-top: 6rem;
-            max-width: 720px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 3rem 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 25px;
-            box-shadow: 0 0 30px rgb(255 215 0 / 0.3);
-        }
-
-        #about p {
-            font-size: 1.15rem;
-            color: #f9f9f9dd;
-            line-height: 1.8;
-            letter-spacing: 0.01em;
-        }
-
-        /* ====== Skills Section ====== */
-        #skills {
-            margin-top: 6rem;
-            padding: 2rem 0 4rem 0;
-            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
-            border-radius: 30px;
-            box-shadow: 0 0 40px rgba(255, 111, 97, 0.4);
-        }
-
-        .skill {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        #skills .skills-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem 4rem;
-            max-width: 900px;
-            margin: auto;
-        }
-
-        /* Skill Pills */
-        .skill-pill {
-            background: linear-gradient(45deg, #ffd700, #ff6f61);
-            color: #222;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            box-shadow: 0 6px 20px rgb(255 111 97 / 0.4);
-            user-select: none;
-            cursor: default;
-            transition: background 0.3s ease;
+            max-width: 400px;
             text-align: center;
         }
 
-        .skill-pill:hover {
-            background: linear-gradient(45deg, #ffaf47, #ff8a70);
+        .login-box h1 {
+            font-size: 32px;
+            color: #333;
+            margin: 20px 0 10px;
         }
 
-        /* Skill Bar Container */
-        .skill-bar {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
+        .login-box p {
+            color: #666;
+            margin-bottom: 30px;
         }
 
-        .skill-bar-label {
-            font-weight: 600;
-            font-size: 1rem;
-            color: #ffeabf;
-        }
-
-        .bar-wrapper {
+        .login-box input {
             width: 100%;
-            height: 14px;
-            background: #222e4f;
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgb(255 215 0 / 0.3);
-        }
-
-        .bar-fill {
-            height: 100%;
-            width: 0;
-            border-radius: 30px;
-            background: linear-gradient(90deg, #ffd700, #ff6f61);
-            box-shadow: 0 0 8px rgba(255, 111, 97, 0.8);
-            transition: width 1.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* ====== Experience Section ====== */
-        #experience {
-            margin-top: 6rem;
-            padding: 4rem 2rem 6rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 0 40px rgb(255 215 0 / 0.25);
-            position: relative;
-        }
-
-        /* Vertical timeline line */
-        #experience::before {
-            content: "";
-            position: absolute;
-            top: 40px;
-            left: 20px;
-            width: 4px;
-            height: calc(100% - 80px);
-            background: linear-gradient(180deg, #ffd700, #ff6f61);
-            border-radius: 2px;
-        }
-
-        /* Individual experience item */
-        .experience-item {
-            position: relative;
-            padding-left: 60px;
-            margin-bottom: 3.5rem;
-        }
-
-        /* Circle marker on timeline */
-        .experience-item::before {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(45deg, #ffd700, #ff6f61);
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgb(255 111 97 / 0.6);
-        }
-
-        .experience-item h3 {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #222;
-            margin-bottom: 0.25rem;
-            background: linear-gradient(90deg, #ffd700, #ff6f61);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .experience-item .company {
-            font-style: italic;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #ffeabfdd;
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-item .duration {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #ffbb66;
-            margin-bottom: 0.75rem;
-        }
-
-        .experience-item ul {
-            color: #eee;
-            font-size: 1rem;
-            line-height: 1.6;
-            list-style-type: disc;
-            padding-left: 1.3rem;
-        }
-
-        /* ====== Contact Section ====== */
-        #contact {
-            margin-top: 6rem;
-            padding: 3rem 2rem 5rem;
-            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
-            border-radius: 30px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 0 40px rgba(255, 111, 97, 0.4);
-        }
-
-        #contact h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .contact-info {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #f0f0f5;
-            margin-bottom: 3rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .contact-info a {
-            font-weight: 600;
-            color: #ffd700;
-            transition: color 0.3s ease;
-        }
-
-        .contact-info a:hover {
-            color: #ff6f61;
-        }
-
-        /* Contact form */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.6rem;
-        }
-
-        form label {
-            font-weight: 600;
-            font-size: 1rem;
-            color: #fff9d0;
-        }
-
-        form input,
-        form textarea {
-            padding: 0.85rem 1rem;
-            border-radius: 15px;
-            border: none;
-            font-size: 1rem;
-            font-family: inherit;
-            resize: none;
-            box-shadow: inset 0 0 15px rgb(255 215 0 / 0.35);
-            background: #203c6a;
-            color: #f0f0f5;
-            transition: box-shadow 0.3s ease;
-        }
-
-        form input:focus,
-        form textarea:focus {
+            padding: 15px;
+            border: 2px solid #f8bbd0;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
             outline: none;
-            box-shadow: 0 0 20px #ffd700;
+            transition: border 0.3s;
         }
 
-        form textarea {
-            min-height: 110px;
+        .login-box input:focus {
+            border-color: #ec407a;
         }
 
-        button[type="submit"] {
-            background: linear-gradient(45deg, #ffd700, #ff6f61);
+        .login-box button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ec407a 0%, #ab47bc 100%);
+            color: white;
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #222;
-            border-radius: 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 6px 25px rgba(255, 111, 97, 0.8);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            transition: transform 0.2s;
         }
 
-        button[type="submit"]:hover {
-            box-shadow: 0 8px 35px rgba(255, 215, 0, 0.95);
-            transform: translateY(-3px);
+        .login-box button:hover {
+            transform: translateY(-2px);
         }
 
-        /* ====== Footer ====== */
-        footer {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            font-size: 0.9rem;
-            color: #f0f0f5bb;
-            user-select: none;
-            position: relative;
-            margin-top: 6rem;
+        .chat-screen {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
         }
 
-        footer::before {
-            content: '';
+        .chat-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .chat-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .messages-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 60%;
+        }
+
+        .message-bubble {
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            word-wrap: break-word;
+        }
+
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, #ec407a 0%, #ab47bc 100%);
+            color: white;
+        }
+
+        .message.received .message-bubble {
+            background: white;
+            color: #333;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+        }
+
+        .message-time {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .message-text {
+            line-height: 1.5;
+        }
+
+        .reactions-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            margin-left: 10px;
+        }
+
+        .reaction-btn {
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 2px solid #e0e0e0;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .reaction-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .reaction-btn.active {
+            background: #f8bbd0;
+            border-color: #ec407a;
+        }
+
+        .add-reaction-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.2s;
+        }
+
+        .add-reaction-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .reaction-picker {
             position: absolute;
-            top: -45px;
-            left: 0;
-            right: 0;
-            height: 45px;
-            background: linear-gradient(45deg, #ffd700 15%, #ff6f61 85%);
-            clip-path: polygon(0 100%, 100% 0, 100% 100%);
-            opacity: 0.4;
-            filter: blur(15px);
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none;
+            gap: 5px;
+            z-index: 10;
+            margin-top: -50px;
         }
 
-        /* ====== Responsive ====== */
-        @media (max-width: 880px) {
-            #hero {
-                flex-direction: column;
-                padding-top: 140px;
-                padding-bottom: 80px;
-            }
-
-            #hero .hero-text {
-                max-width: 100%;
-            }
-
-            nav ul {
-                gap: 1.5rem;
-            }
-
-            #skills .skills-container {
-                grid-template-columns: 1fr;
-                gap: 2rem 0;
-                max-width: 100%;
-            }
-
-            #experience {
-                max-width: 100%;
-                padding: 3rem 1rem 5rem;
-            }
-
-            #about {
-                padding: 2rem 1rem;
-            }
-
-            #contact {
-                padding: 2rem 1rem 4rem;
-            }
+        .reaction-picker.show {
+            display: flex;
         }
 
-        @media (max-width: 480px) {
-            #hero h1 {
-                font-size: 2.8rem;
-            }
+        .reaction-option {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
 
-            #hero h2 {
-                font-size: 1.3rem;
-            }
+        .reaction-option:hover {
+            background: #f5f5f5;
+        }
 
-            nav .logo {
-                font-size: 1.4rem;
-            }
+        .input-area {
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px;
+        }
 
-            nav ul {
-                gap: 1rem;
-            }
+        .input-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .emoji-picker {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: none;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .emoji-picker.show {
+            display: grid;
+        }
+
+        .emoji-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .emoji-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .input-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .emoji-toggle-btn {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background 0.2s;
+        }
+
+        .emoji-toggle-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .message-input:focus {
+            border-color: #ec407a;
+        }
+
+        .send-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #ec407a 0%, #ab47bc 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            margin-top: 50px;
+        }
+
+        .empty-state svg {
+            margin-bottom: 15px;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 
 <body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <div style="font-size: 60px;">❤️</div>
+            <h1>Chat with Love</h1>
+            <p>Enter your name to start messaging</p>
+            <input type="text" id="usernameInput" placeholder="Your name...">
+            <button onclick="login()">Start Chatting</button>
+        </div>
+    </div>
 
-    <header id="header">
-        <nav>
-            <div class="logo">Laila Bikis Eti</div>
-            <ul id="nav-links">
-                <li><a href="#hero" class="active">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="hero" class="container">
-            <div class="hero-text">
-                <h1>Laila Bikis Eti</h1>
-                <h2>Human Resources Professional</h2>
-                <p>Dedicated HR specialist with 5+ years of experience in talent acquisition, employee engagement, and
-                    organizational development. Passionate about building great teams and fostering positive work
-                    environments.</p>
-                <button class="btn-primary"
-                    onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Me</button>
-            </div>
-            <div class="hero-image">
-                <img src="https://i.ibb.co/84zKWwyp/1.jpg" alt="Laila Bikis Eti" />
-            </div>
-        </section>
-
-        <section id="about" class="container">
-            <h2 class="section-title">About Me</h2>
-            <p>
-                I am a proactive and compassionate Human Resources professional, experienced in recruitment, employee
-                relations, and HR strategy implementation. With a strong foundation in labor law compliance and HR
-                technology, I strive to create workplaces where employees thrive and organizations succeed.
-            </p>
-        </section>
-
-        <section id="skills">
-            <h2 class="section-title">My Skills</h2>
-            <div class="skills-container container">
-                <div>
-                    <div class="skill-bar">
-                        <div class="skill-bar-label">Talent Acquisition</div>
-                        <div class="bar-wrapper">
-                            <div class="bar-fill" data-fill="90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-bar-label">Employee Relations</div>
-                        <div class="bar-wrapper">
-                            <div class="bar-fill" data-fill="85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-bar-label">HR Strategy</div>
-                        <div class="bar-wrapper">
-                            <div class="bar-fill" data-fill="80%"></div>
-                        </div>
-                    </div>
+    <!-- Chat Screen -->
+    <div id="chatScreen" class="chat-screen">
+        <div class="chat-header">
+            <div class="chat-header-content">
+                <div class="chat-title">
+                    <span style="font-size: 32px;">❤️</span>
+                    <span>Our Chat</span>
                 </div>
-                <div class="skill">
-                    <div class="skill-pill">Conflict Resolution</div>
-                    <div class="skill-pill">Performance Management</div>
-                    <div class="skill-pill">Training & Development</div>
-                    <div class="skill-pill">Labor Law Compliance</div>
-                    <div class="skill-pill">HRIS Management</div>
+                <div class="user-info">
+                    <span style="font-size: 20px;">👤</span>
+                    <span id="currentUsername"></span>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="experience">
-            <h2 class="section-title">Work Experience</h2>
-
-            <div class="experience-item">
-                <h3>Senior HR Specialist</h3>
-                <div class="company">ABC Corporation</div>
-                <div class="duration">Jan 2020 – Present</div>
-                <ul>
-                    <li>Led recruitment campaigns filling over 150 positions across multiple departments.</li>
-                    <li>Developed onboarding programs improving employee retention by 20%.</li>
-                    <li>Collaborated with leadership to implement performance appraisal systems.</li>
-                </ul>
+        <div class="messages-container" id="messagesContainer">
+            <div class="messages-wrapper" id="messagesWrapper">
+                <div class="empty-state" id="emptyState">
+                    <div style="font-size: 48px;">💕</div>
+                    <p>No messages yet. Say hi! 👋</p>
+                </div>
             </div>
+        </div>
 
-            <div class="experience-item">
-                <h3>HR Coordinator</h3>
-                <div class="company">XYZ Ltd.</div>
-                <div class="duration">Jun 2017 – Dec 2019</div>
-                <ul>
-                    <li>Managed employee relations, conflict resolution, and compliance issues.</li>
-                    <li>Maintained HRIS databases and generated monthly HR reports.</li>
-                    <li>Organized training sessions and professional development workshops.</li>
-                </ul>
+        <div class="input-area">
+            <div class="input-wrapper">
+                <div id="emojiPicker" class="emoji-picker"></div>
+                <div class="input-controls">
+                    <button class="emoji-toggle-btn" onclick="toggleEmojiPicker()">😊</button>
+                    <input type="text" id="messageInput" class="message-input" placeholder="Type a message...">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <span>Send</span>
+                        <span>➤</span>
+                    </button>
+                </div>
             </div>
-
-            <div class="experience-item">
-                <h3>HR Intern</h3>
-                <div class="company">Global HR Solutions</div>
-                <div class="duration">Jan 2016 – May 2017</div>
-                <ul>
-                    <li>Supported recruitment process with resume screening and interview coordination.</li>
-                    <li>Assisted with employee record management and documentation.</li>
-                    <li>Helped conduct new hire orientations and engagement activities.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="contact" class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-info">
-                <div>Email: <a href="mailto:laila.bikis@example.com">laila.bikis@example.com</a></div>
-                <div>Phone: <a href="tel:+8801234567890">+880 1234 567 890</a></div>
-                <div>LinkedIn: <a href="https://linkedin.com/in/lailabikis" target="_blank"
-                        rel="noopener noreferrer">linkedin.com/in/lailabikis</a></div>
-            </div>
-
-            <form id="contactForm" novalidate>
-                <label for="name">Name</label>
-                <input type="text" id="name" placeholder="Your full name" required minlength="3" />
-
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Your email address" required />
-
-                <label for="message">Message</label>
-                <textarea id="message" placeholder="Write your message here" required minlength="10"></textarea>
-
-                <button type="submit">Send Message</button>
-            </form>
-        </section>
-    </main>
-
-    <footer>
-        &copy; 2025 Laila Bikis Eti. All rights reserved.
-    </footer>
+        </div>
+    </div>
 
     <script>
-        // Smooth scroll active nav link highlight on scroll
-        const sections = document.querySelectorAll('main section');
-        const navLinks = document.querySelectorAll('#nav-links a');
+        let currentUser = '';
+        let messages = [];
+        let pollInterval;
 
-        function onScroll() {
-            let scrollPos = window.scrollY + window.innerHeight / 3;
-            sections.forEach(section => {
-                if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href').slice(1) === section.id) {
-                            link.classList.add('active');
+        const emojis = ['😊', '😂', '🥰', '😍', '🤗', '😘', '💕', '❤️', '💖', '✨', '🌟', '🎉', '👋', '🙏', '💪', '👍', '🔥', '💯', '😎', '🤔', '😢', '😭', '😴', '🤤'];
+        const reactionEmojis = ['❤️', '😂', '😮', '😢', '😍', '👍', '🔥'];
+
+        // Initialize emoji picker
+        function initEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            emojis.forEach(emoji => {
+                const btn = document.createElement('button');
+                btn.className = 'emoji-btn';
+                btn.textContent = emoji;
+                btn.onclick = () => insertEmoji(emoji);
+                picker.appendChild(btn);
+            });
+        }
+
+        function toggleEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            picker.classList.toggle('show');
+        }
+
+        function insertEmoji(emoji) {
+            const input = document.getElementById('messageInput');
+            input.value += emoji;
+            input.focus();
+        }
+
+        function login() {
+            const username = document.getElementById('usernameInput').value.trim();
+            if (username) {
+                currentUser = username;
+                document.getElementById('currentUsername').textContent = username;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('chatScreen').style.display = 'flex';
+                initEmojiPicker();
+                loadMessages();
+                pollInterval = setInterval(loadMessages, 2000);
+            }
+        }
+
+        async function loadMessages() {
+            try {
+                const result = await window.storage.list('msg:', true);
+                if (result && result.keys) {
+                    const messagePromises = result.keys.map(async (key) => {
+                        const data = await window.storage.get(key, true);
+                        return data ? JSON.parse(data.value) : null;
+                    });
+                    const loadedMessages = (await Promise.all(messagePromises))
+                        .filter(msg => msg !== null)
+                        .sort((a, b) => a.timestamp - b.timestamp);
+                    messages = loadedMessages;
+                    renderMessages();
+                }
+            } catch (error) {
+                console.log('No messages yet');
+            }
+        }
+
+        function renderMessages() {
+            const wrapper = document.getElementById('messagesWrapper');
+            const emptyState = document.getElementById('emptyState');
+
+            if (messages.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            wrapper.innerHTML = '';
+
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${msg.sender === currentUser ? 'sent' : 'received'}`;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+
+                const bubbleDiv = document.createElement('div');
+                bubbleDiv.className = 'message-bubble';
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'message-header';
+                headerDiv.innerHTML = `
+                    <span class="message-sender">${msg.sender}</span>
+                    <span class="message-time">${formatTime(msg.timestamp)}</span>
+                `;
+
+                const textDiv = document.createElement('div');
+                textDiv.className = 'message-text';
+                textDiv.textContent = msg.text;
+
+                bubbleDiv.appendChild(headerDiv);
+                bubbleDiv.appendChild(textDiv);
+                contentDiv.appendChild(bubbleDiv);
+
+                // Add reactions
+                const reactionsDiv = document.createElement('div');
+                reactionsDiv.className = 'reactions-container';
+                reactionsDiv.style.position = 'relative';
+
+                if (msg.reactions) {
+                    Object.entries(msg.reactions).forEach(([emoji, users]) => {
+                        if (users.length > 0) {
+                            const reactionBtn = document.createElement('button');
+                            reactionBtn.className = `reaction-btn ${users.includes(currentUser) ? 'active' : ''}`;
+                            reactionBtn.innerHTML = `<span>${emoji}</span><span style="font-size: 12px; font-weight: 600;">${users.length}</span>`;
+                            reactionBtn.onclick = () => addReaction(msg.id, emoji);
+                            reactionsDiv.appendChild(reactionBtn);
                         }
                     });
                 }
+
+                // Add reaction button
+                const addReactionBtn = document.createElement('button');
+                addReactionBtn.className = 'add-reaction-btn';
+                addReactionBtn.textContent = '+';
+                addReactionBtn.onclick = (e) => toggleReactionPicker(e, msg.id);
+
+                const reactionPicker = document.createElement('div');
+                reactionPicker.className = 'reaction-picker';
+                reactionPicker.id = `picker-${msg.id}`;
+
+                reactionEmojis.forEach(emoji => {
+                    const option = document.createElement('button');
+                    option.className = 'reaction-option';
+                    option.textContent = emoji;
+                    option.onclick = () => {
+                        addReaction(msg.id, emoji);
+                        reactionPicker.classList.remove('show');
+                    };
+                    reactionPicker.appendChild(option);
+                });
+
+                reactionsDiv.appendChild(addReactionBtn);
+                reactionsDiv.appendChild(reactionPicker);
+                contentDiv.appendChild(reactionsDiv);
+
+                messageDiv.appendChild(contentDiv);
+                wrapper.appendChild(messageDiv);
             });
 
-            // Header background change on scroll
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
+            scrollToBottom();
+        }
+
+        function toggleReactionPicker(e, messageId) {
+            e.stopPropagation();
+            const picker = document.getElementById(`picker-${messageId}`);
+            document.querySelectorAll('.reaction-picker').forEach(p => {
+                if (p.id !== `picker-${messageId}`) {
+                    p.classList.remove('show');
+                }
+            });
+            picker.classList.toggle('show');
+        }
+
+        async function addReaction(messageId, emoji) {
+            const message = messages.find(m => m.id === messageId);
+            if (!message) return;
+
+            const reactions = message.reactions || {};
+
+            if (reactions[emoji] && reactions[emoji].includes(currentUser)) {
+                reactions[emoji] = reactions[emoji].filter(u => u !== currentUser);
+                if (reactions[emoji].length === 0) {
+                    delete reactions[emoji];
+                }
             } else {
-                header.classList.remove('scrolled');
+                if (!reactions[emoji]) {
+                    reactions[emoji] = [];
+                }
+                reactions[emoji].push(currentUser);
+            }
+
+            const updatedMessage = { ...message, reactions };
+
+            try {
+                await window.storage.set(`msg:${messageId}`, JSON.stringify(updatedMessage), true);
+                await loadMessages();
+            } catch (error) {
+                console.error('Error adding reaction:', error);
             }
         }
 
-        window.addEventListener('scroll', onScroll);
-        window.addEventListener('load', () => {
-            onScroll();
-            animateSkillBars();
-        });
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
 
-        // Animate skill bars on load
-        function animateSkillBars() {
-            const bars = document.querySelectorAll('.bar-fill');
-            bars.forEach(bar => {
-                const fill = bar.getAttribute('data-fill');
-                setTimeout(() => {
-                    bar.style.width = fill;
-                }, 300);
+            if (!text) return;
+
+            const newMessage = {
+                id: Date.now().toString(),
+                text: text,
+                sender: currentUser,
+                timestamp: Date.now(),
+                reactions: {}
+            };
+
+            try {
+                await window.storage.set(`msg:${newMessage.id}`, JSON.stringify(newMessage), true);
+                input.value = '';
+                document.getElementById('emojiPicker').classList.remove('show');
+                await loadMessages();
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit'
             });
         }
 
-        // Contact form validation & submission simulation
-        const form = document.getElementById('contactForm');
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-
-            // Simple validation
-            if (!form.name.value.trim() || form.name.value.trim().length < 3) {
-                alert('Please enter a valid name with at least 3 characters.');
-                form.name.focus();
-                return;
-            }
-
-            if (!form.email.value.trim() || !validateEmail(form.email.value)) {
-                alert('Please enter a valid email address.');
-                form.email.focus();
-                return;
-            }
-
-            if (!form.message.value.trim() || form.message.value.trim().length < 10) {
-                alert('Please enter a message with at least 10 characters.');
-                form.message.focus();
-                return;
-            }
-
-            alert('Thank you for reaching out! I will get back to you soon.');
-            form.reset();
-        });
-
-        function validateEmail(email) {
-            const re = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-            return re.test(email.toLowerCase());
+        function scrollToBottom() {
+            const container = document.getElementById('messagesContainer');
+            container.scrollTop = container.scrollHeight;
         }
-    </script>
 
+        // Enter key to send
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('usernameInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') login();
+            });
+
+            document.getElementById('messageInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // Close reaction picker when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.reactions-container')) {
+                    document.querySelectorAll('.reaction-picker').forEach(p => {
+                        p.classList.remove('show');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
